@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import { Link, useRouteMatch } from "react-router-dom";
 
+import Button from "react-bootstrap/button";
+
 const Pizza = () => {
   const [form, setForm] = useState({
     name: "",
@@ -16,18 +18,26 @@ const Pizza = () => {
   const formChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    console.log(form);
+  };
+
   return (
     <>
       <h1>Build Your Own Pizza</h1>
-      <form>
-        <label>Enter Your Name</label>
-        <input
-          onChange={formChange}
-          type="text"
-          name="name"
-          id="name-input"
-          value={form.name}
-        ></input>
+      <form onSubmit={submitForm}>
+        <div>
+          <label>Enter Your Name</label>
+          <input
+            onChange={formChange}
+            type="text"
+            name="name"
+            id="name-input"
+            value={form.name}
+          ></input>
+        </div>
         <label>Choice of Size</label>
         <input
           onChange={formChange}
@@ -35,20 +45,34 @@ const Pizza = () => {
           name="size"
           id="size-dropdown"
         ></input>
-        <label>Choice of Sauce</label>
-        <input onChange={formChange} type="radio"></input>
-        <label>Add Toppings</label>
-        <input onChange={formChange} type="checkbox"></input>
-        <label>Special Instructions</label>
-        <input
-          onChange={formChange}
-          type="text"
-          name="instructions"
-          id="special-text"
-        ></input>
-        {/* <Button type="submit" id="order-button">
-          Submit Order
-        </Button> */}
+        {/* <div>
+          <label>Choice of Sauce</label>
+
+          <input onChange={formChange} type="radio"></input>
+        </div> */}
+        <div>
+          <label>Add Toppings</label>
+          <label>Pepperoni</label>
+          <input onChange={formChange} type="checkbox" name="pepperoni"></input>
+          <label>Sausage</label>
+          <input onChange={formChange} type="checkbox" name="sausage"></input>
+          <label>Mushrooms</label>
+          <input onChange={formChange} type="checkbox" name="mushrooms"></input>
+          <label>Olives</label>
+          <input onChange={formChange} type="checkbox" name="olives"></input>
+        </div>
+        <div>
+          <label>Special Instructions</label>
+          <input
+            onChange={formChange}
+            type="text"
+            name="instructions"
+            id="special-text"
+          ></input>
+        </div>
+        <Button type="submit" id="order-button">
+          Add to Order
+        </Button>
       </form>
     </>
   );
