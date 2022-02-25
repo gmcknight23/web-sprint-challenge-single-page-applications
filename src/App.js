@@ -17,14 +17,14 @@ const App = () => {
   return (
     <div className="App">
       <header>
-        <Link to="/" id="order-pizza">
+        <Link to="/" id="pizza-form">
           Home
         </Link>
       </header>
       <Switch>
         <Route exact path="/">
           <h1>Lambda Eats</h1>
-          <Link to="/Pizza" id="pizza-form">
+          <Link to="/pizza" id="order-pizza">
             Pizza?
           </Link>
         </Route>

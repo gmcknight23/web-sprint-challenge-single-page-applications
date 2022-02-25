@@ -70,13 +70,15 @@ const Pizza = (props) => {
             value={form.name}
           ></input>
         </div>
-        <label>Choice of Size</label>
-        <input
-          onChange={formChange}
-          type="dropdown"
-          name="size"
-          id="size-dropdown"
-        ></input>
+        <label>
+          Size
+          <select id="size-dropdown">
+            <option>--Select One--</option>
+            <option>Small</option>
+            <option>Medium</option>
+            <option>Large</option>
+          </select>
+        </label>
         {/* <div>
           <label>Choice of Sauce</label>
 
