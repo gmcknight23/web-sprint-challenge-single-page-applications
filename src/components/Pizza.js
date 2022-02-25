@@ -20,27 +20,28 @@ const Pizza = (props) => {
 
   const [error, setError] = useState({
     name: "",
+    accepted: "",
   });
 
   const [disabled, setDisabled] = useState(true);
   const { orderSubmit } = props;
   const [form, setForm] = useState(initialForm);
 
-  const formValidate = (e) => {
-    yup
-      .reach(formSchema, e.target.name)
-      .validate(
-        e.target.type === "checkbox" ? e.target.checked : e.target.value
-      )
-      .then(() => {
-        setError({ ...error, [e.target.name]: "" });
-      })
-      .catch((error) => {
-        setError({ ...error, [e.target.name]: error.errors[0] });
-      });
-  };
+  // const formValidate = (e) => {
+  //   yup
+  //     .reach(formSchema, e.target.name)
+  //     .validate(
+  //       e.target.type === "checkbox" ? e.target.checked : e.target.value
+  //     )
+  //     .then(() => {
+  //       setError({ ...error, [e.target.name]: "" });
+  //     })
+  //     .catch((error) => {
+  //       setError({ ...error, [e.target.name]: error.errors[0] });
+  //     });
+  // };
   const formChange = (e) => {
-    formValidate(e);
+    //formValidate(e);
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
