@@ -4,12 +4,20 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { render } from "react-dom";
 import Pizza from "./components/Pizza";
 import { Link, Switch, Route } from "react-router-dom";
+import axios from "axios";
 
 const App = () => {
   const [order, setOrder] = useState([]);
 
   const orderSubmit = (newOrder) => {
     setOrder([...order, newOrder]);
+    axios
+      .post("https://reqres.in/api/orders", newOrder)
+      .then((res) => {
+        console.log(res.data);
+        // setUsers([res.data, ...users])
+      })
+      .catch((err) => console.error(err));
   };
 
   useEffect(() => {}, [order]);

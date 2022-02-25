@@ -6,16 +6,22 @@ import * as yup from "yup";
 const initialForm = {
   name: "",
   size: "",
-  Pepperoni: Boolean,
-  Sausage: Boolean,
-  Mushrooms: Boolean,
-  Olives: Boolean,
+  pepperoni: false,
+  sausage: false,
+  mushrooms: false,
+  olives: false,
   special: "",
 };
 
 const Pizza = (props) => {
   const formSchema = yup.object().shape({
     name: yup.string().min(2, "name must be at least 2 characters"),
+    size: yup.string().required(),
+    pepperoni: yup.boolean(),
+    sausage: yup.boolean(),
+    mushrooms: yup.boolean(),
+    olives: yup.boolean(),
+    special: yup.string(),
   });
 
   const [error, setError] = useState({
@@ -27,22 +33,26 @@ const Pizza = (props) => {
   const { orderSubmit } = props;
   const [form, setForm] = useState(initialForm);
 
-  // const formValidate = (e) => {
-  //   yup
-  //     .reach(formSchema, e.target.name)
-  //     .validate(
-  //       e.target.type === "checkbox" ? e.target.checked : e.target.value
-  //     )
-  //     .then(() => {
-  //       setError({ ...error, [e.target.name]: "" });
-  //     })
-  //     .catch((error) => {
-  //       setError({ ...error, [e.target.name]: error.errors[0] });
-  //     });
-  // };
+  const formValidate = (e) => {
+    yup
+      .reach(formSchema, e.target.name)
+      .validate(
+        e.target.type === "checkbox" ? e.target.checked : e.target.value
+      )
+      .then(() => {
+        setError({ ...error, [e.target.name]: "" });
+      })
+      .catch((error) => {
+        setError({ ...error, [e.target.name]: error.errors[0] });
+      });
+  };
   const formChange = (e) => {
-    //formValidate(e);
-    setForm({ ...form, [e.target.name]: e.target.value });
+    formValidate(e);
+    setForm({
+      ...form,
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+    });
   };
 
   const submitForm = (e) => {
@@ -61,7 +71,7 @@ const Pizza = (props) => {
     <>
       <h1>Build Your Own Pizza</h1>
       <form onSubmit={submitForm}>
-        <div>
+        <div className="name-div">
           <label>Enter Your Name</label>
           <input
             onChange={formChange}
@@ -73,11 +83,11 @@ const Pizza = (props) => {
         </div>
         <label>
           Size
-          <select id="size-dropdown">
+          <select onChange={formChange} name="size" id="size-dropdown">
             <option>--Select One--</option>
-            <option>Small</option>
-            <option>Medium</option>
-            <option>Large</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
           </select>
         </label>
         {/* <div>
@@ -101,7 +111,7 @@ const Pizza = (props) => {
           <input
             onChange={formChange}
             type="text"
-            name="instructions"
+            name="special"
             id="special-text"
           ></input>
         </div>
