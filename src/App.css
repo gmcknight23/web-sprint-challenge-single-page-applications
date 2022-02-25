@@ -7,6 +7,17 @@
   pointer-events: none;
 }
 
+.header-div {
+  display: flex;
+  flex-direction: row;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
