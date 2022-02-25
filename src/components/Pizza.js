@@ -1,28 +1,60 @@
 import React, { useState, useEffect } from "react";
-
 import { Link, useRouteMatch } from "react-router-dom";
-
 import Button from "react-bootstrap/button";
+import * as yup from "yup";
 
-const Pizza = () => {
-  const [form, setForm] = useState({
-    name: "",
-    size: "",
-    Pepperoni: Boolean,
-    Sausage: Boolean,
-    Mushrooms: Boolean,
-    Olives: Boolean,
-    special: "",
+const initialForm = {
+  name: "",
+  size: "",
+  Pepperoni: Boolean,
+  Sausage: Boolean,
+  Mushrooms: Boolean,
+  Olives: Boolean,
+  special: "",
+};
+
+const Pizza = (props) => {
+  const formSchema = yup.object().shape({
+    name: yup.string().min(2, "name must be at least 2 characters"),
   });
 
+  const [error, setError] = useState({
+    name: "",
+  });
+
+  const [disabled, setDisabled] = useState(true);
+  const { orderSubmit } = props;
+  const [form, setForm] = useState(initialForm);
+
+  const formValidate = (e) => {
+    yup
+      .reach(formSchema, e.target.name)
+      .validate(
+        e.target.type === "checkbox" ? e.target.checked : e.target.value
+      )
+      .then(() => {
+        setError({ ...error, [e.target.name]: "" });
+      })
+      .catch((error) => {
+        setError({ ...error, [e.target.name]: error.errors[0] });
+      });
+  };
   const formChange = (e) => {
+    formValidate(e);
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const submitForm = (e) => {
     e.preventDefault();
-    console.log(form);
+    orderSubmit(form);
+    setForm(initialForm);
   };
+
+  useEffect(() => {
+    formSchema.isValid(form).then((valid) => {
+      setDisabled(!valid);
+    });
+  }, [form]);
 
   return (
     <>
@@ -70,10 +102,12 @@ const Pizza = () => {
             id="special-text"
           ></input>
         </div>
-        <Button type="submit" id="order-button">
+        <Button type="submit" disabled={disabled} id="order-button">
           Add to Order
         </Button>
       </form>
+      <p>{error.name}</p>
+      <p>{error.accepted}</p>
     </>
   );
 };

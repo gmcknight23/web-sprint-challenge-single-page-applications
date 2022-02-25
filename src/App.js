@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { render } from "react-dom";
@@ -6,11 +6,13 @@ import Pizza from "./components/Pizza";
 import { Link, Switch, Route } from "react-router-dom";
 
 const App = () => {
-  // const history = useHistory();
+  const [order, setOrder] = useState([]);
 
-  // const routeToPizza = () => {
-  //   history.push("/Pizza");
-  // };
+  const orderSubmit = (newOrder) => {
+    setOrder([...order, newOrder]);
+  };
+
+  useEffect(() => {}, [order]);
 
   return (
     <div className="App">
@@ -27,7 +29,7 @@ const App = () => {
           </Link>
         </Route>
         <Route path="/pizza">
-          <Pizza />
+          <Pizza orderSubmit={orderSubmit} />
         </Route>
       </Switch>
     </div>
